@@ -19,9 +19,10 @@ function _get(route: string): Promise<Object> {
       res.on("end", () => {
         if (data === undefined || !data.startsWith("{")) {
           reject("Invalid JSON data");
+        } else {
+          // The API response is JSON - resolve with the parsed object.
+          resolve(JSON.parse(data));
         }
-        // The API response is JSON - resolve with the parsed object.
-        resolve(JSON.parse(data));
       });
     }).on("error", reject);
   });
@@ -34,7 +35,7 @@ function _get(route: string): Promise<Object> {
  * @see https://runescape.wiki/w/RuneScape_Bestiary#beastData
  */
 export async function beastData(beastId: Number): Promise<Beast> {
-  if (!(beastId instanceof Number)) {
+  if (typeof beastId !== "number") {
     throw new Error("beastId must be a number!");
   }
 
@@ -109,7 +110,7 @@ export async function slayerCatNames(): Promise<SlayerCategories> {
  * @see https://runescape.wiki/w/RuneScape_Bestiary#slayerBeasts
  */
 export async function slayerBeasts(identifier: Number): Promise<MonsterLookup[]> {
-  if (!(identifier instanceof Number)) {
+  if (typeof identifier !== "number") {
     throw new Error("identifier must be a number!");
   }
 
@@ -134,7 +135,7 @@ export async function weaknessNames(): Promise<Weaknesses> {
  * @see https://runescape.wiki/w/RuneScape_Bestiary#weaknessBeasts
  */
 export async function weaknessBeasts(identifier: Number): Promise<MonsterLookup[]> {
-  if (!(identifier instanceof Number)) {
+  if (typeof identifier !== "number") {
     throw new Error("identifier must be a number!");
   }
 
