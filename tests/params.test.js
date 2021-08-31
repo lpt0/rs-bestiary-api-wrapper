@@ -11,10 +11,6 @@ describe("Parameter type checking", () => {
       const promise = api.beastData("A");
       return expect(promise).to.eventually.be.rejected;
     });
-    it("should be fulfilled if a valid ID is passed", () => {
-      const promise = api.beastData(1);
-      return expect(promise).to.eventually.be.fulfilled;
-    });
   });
 
   describe("Test beastiaryNames", () => {
