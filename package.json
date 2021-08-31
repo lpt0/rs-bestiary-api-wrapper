@@ -1,6 +1,6 @@
 {
   "name": "rs-bestiary-api-wrapper",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Wrapper around the RuneScape Bestiary API",
   "main": "dist/api.js",
   "scripts": {

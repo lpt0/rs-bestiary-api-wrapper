@@ -1,0 +1,35 @@
+name: Build, test, and push package
+
+on:
+  push:
+    branches:
+      - "main"
+
+env:
+  NODE_VERSION: "16.x"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+      - name: Setup Node.js v${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: https://npm.pkg.github.com
+          scope: "@${{ github.actor }}"
+      - name: Install dependencies
+        run: npm ci
+      - name: Build code
+        run: npm run build
+      - name: Run tests
+        run: npm test
+      - name: Publish package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
