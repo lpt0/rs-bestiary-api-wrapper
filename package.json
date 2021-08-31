@@ -1,0 +1,14 @@
+{
+  "name": "rs-bestiary-api-wrapper",
+  "version": "0.0.1",
+  "description": "Wrapper around the RuneScape Bestiary API",
+  "main": "dist/api.js",
+  "scripts": {
+    "test": "node tests/main.js"
+  },
+  "author": "Haran <haran@nxdomain.ca>",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@types/node": "^16.7.9"
+  }
+}
