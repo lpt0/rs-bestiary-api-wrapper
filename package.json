@@ -4,11 +4,15 @@
   "description": "Wrapper around the RuneScape Bestiary API",
   "main": "dist/api.js",
   "scripts": {
-    "test": "node tests/main.js"
+    "test": "node ./node_modules/mocha/bin/mocha tests/*.test.js",
+    "build": "tsc"
   },
   "author": "Haran <haran@nxdomain.ca>",
   "license": "UNLICENSED",
   "devDependencies": {
-    "@types/node": "^16.7.9"
+    "@types/node": "^16.7.9",
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^9.1.1"
   }
 }
