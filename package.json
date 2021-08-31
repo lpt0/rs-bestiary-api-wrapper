@@ -1,5 +1,5 @@
 {
-  "name": "rs-bestiary-api-wrapper",
+  "name": "@lpt0/rs-bestiary-api-wrapper",
   "version": "1.0.0",
   "description": "Wrapper around the RuneScape Bestiary API",
   "main": "dist/api.js",
