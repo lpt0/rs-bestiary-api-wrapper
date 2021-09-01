@@ -5,14 +5,18 @@ import { Beast, MonsterLookup, Area, SlayerCategories, Weaknesses } from "./inte
 export const BASE_URL = "https://secure.runescape.com/m=itemdb_rs/bestiary";
 // TODO: Gracefully handle redirect from services.* to secure.*
 
+const HEADERS = {
+  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0"
+}
+
 /**
  * Perform an API call.
  * @param route The route to GET.
  * @returns The API data once retrieved.
  */
-function _get(route: string): Promise<Object> {
+export function _get(route: string): Promise<Object> {
   return new Promise<Object>((resolve, reject) => {
-    https.get(route, res => {
+    https.get(route, { headers: HEADERS }, res => {
       let data = "";
       // Response data will be a string.
       res.on("data", (buf: Buffer) => data += buf.toString("utf-8"));
