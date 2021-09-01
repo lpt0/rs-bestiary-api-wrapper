@@ -29,6 +29,8 @@ jobs:
         run: npm run build
       - name: Run tests
         run: npm test
+      - name: Move dist/ to root
+        run: mv dist/** ./ && rm -rfv dist/
       - name: Publish package
         run: npm publish
         env:

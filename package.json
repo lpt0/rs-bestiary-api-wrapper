@@ -1,8 +1,8 @@
 {
   "name": "@lpt0/rs-bestiary-api-wrapper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Wrapper around the RuneScape Bestiary API",
-  "main": "dist/api.js",
+  "main": "index.js",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha tests/*.test.js",
     "build": "tsc"
