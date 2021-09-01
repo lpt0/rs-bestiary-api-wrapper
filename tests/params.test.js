@@ -1,6 +1,6 @@
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
-const api = require("../dist/api.js");
+const { api } = require("../dist/index.js");
 const { expect } = chai;
 chai.use(chaiAsPromised);
 

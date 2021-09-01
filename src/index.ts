@@ -1,5 +1,5 @@
 import https from "https";
-import { Beast, MonsterLookup, Area, SlayerCategories, Weaknesses } from "./interfaces/";
+import { Beast, MonsterLookup, Area, SlayerCategories, Weaknesses } from "./interfaces";
 
 /** Base path for the entire API. */
 export const BASE_URL = "https://secure.runescape.com/m=itemdb_rs/bestiary";
@@ -17,7 +17,7 @@ function _get(route: string): Promise<Object> {
       // Response data will be a string.
       res.on("data", (buf: Buffer) => data += buf.toString("utf-8"));
       res.on("end", () => {
-        if (data === undefined || !data.startsWith("{")) {
+        if (data === undefined || (!data.startsWith("{") && !data.startsWith("["))) {
           reject("Invalid JSON data");
         } else {
           // The API response is JSON - resolve with the parsed object.
@@ -34,7 +34,7 @@ function _get(route: string): Promise<Object> {
  * @returns The monster's data.
  * @see https://runescape.wiki/w/RuneScape_Bestiary#beastData
  */
-export async function beastData(beastId: Number): Promise<Beast> {
+async function beastData(beastId: Number): Promise<Beast> {
   if (typeof beastId !== "number") {
     throw new Error("beastId must be a number!");
   }
@@ -51,7 +51,7 @@ export async function beastData(beastId: Number): Promise<Beast> {
  * @returns A list of monsters with name and ID matching the search term.
  * @see https://runescape.wiki/w/RuneScape_Bestiary#beastSearch
  */
-export async function beastSearch(term: string): Promise<MonsterLookup[]> {
+async function beastSearch(term: string): Promise<MonsterLookup[]> {
   const data = await _get(`${BASE_URL}/beastSearch.json?beastid=${term}`);
   return data as MonsterLookup[];
 }
@@ -62,7 +62,7 @@ export async function beastSearch(term: string): Promise<MonsterLookup[]> {
  * @returns Monsters starting with the provided letter.
  * @see https://runescape.wiki/w/RuneScape_Bestiary#bestiaryNames
  */
-export async function beastiaryNames(letter: string): Promise<MonsterLookup[]> {
+async function beastiaryNames(letter: string): Promise<MonsterLookup[]> {
   if (letter.length !== 1) {
     throw new Error("letter must be 1 character!");
   }
@@ -75,7 +75,7 @@ export async function beastiaryNames(letter: string): Promise<MonsterLookup[]> {
  * @returns All area names.
  * @see https://runescape.wiki/w/RuneScape_Bestiary#areaNames
  */
-export async function areaNames(): Promise<Area[]> {
+async function areaNames(): Promise<Area[]> {
   const data = await _get(`${BASE_URL}/areaNames.json`);
   return data as Area[];
 }
@@ -88,7 +88,7 @@ export async function areaNames(): Promise<Area[]> {
  * @returns Monsters belonging to the provided area.
  * @see https://runescape.wiki/w/RuneScape_Bestiary#areaBeasts
  */
-export async function areaBeasts(identifier: Area): Promise<MonsterLookup[]> {
+async function areaBeasts(identifier: Area): Promise<MonsterLookup[]> {
   const data = await _get(`${BASE_URL}/areaBeasts.json?identifier=${identifier}`);
   return data as MonsterLookup[];
 }
@@ -98,7 +98,7 @@ export async function areaBeasts(identifier: Area): Promise<MonsterLookup[]> {
  * @returns All Slayer categories.
  * @see https://runescape.wiki/w/RuneScape_Bestiary#slayerCatNames
  */
-export async function slayerCatNames(): Promise<SlayerCategories> {
+async function slayerCatNames(): Promise<SlayerCategories> {
   const data = await _get(`${BASE_URL}/slayerCatNames.json`);
   return data as SlayerCategories;
 }
@@ -109,7 +109,7 @@ export async function slayerCatNames(): Promise<SlayerCategories> {
  * @returns Monsters belonging to the provided slayer category.
  * @see https://runescape.wiki/w/RuneScape_Bestiary#slayerBeasts
  */
-export async function slayerBeasts(identifier: Number): Promise<MonsterLookup[]> {
+async function slayerBeasts(identifier: Number): Promise<MonsterLookup[]> {
   if (typeof identifier !== "number") {
     throw new Error("identifier must be a number!");
   }
@@ -123,7 +123,7 @@ export async function slayerBeasts(identifier: Number): Promise<MonsterLookup[]>
  * @returns All weaknesses.
  * @see https://runescape.wiki/w/RuneScape_Bestiary#weaknessNames
  */
-export async function weaknessNames(): Promise<Weaknesses> {
+async function weaknessNames(): Promise<Weaknesses> {
   const data = await _get(`${BASE_URL}/weaknessNames.json`);
   return data as Weaknesses;
 }
@@ -134,7 +134,7 @@ export async function weaknessNames(): Promise<Weaknesses> {
  * @returns All monsters with the provided weakness.
  * @see https://runescape.wiki/w/RuneScape_Bestiary#weaknessBeasts
  */
-export async function weaknessBeasts(identifier: Number): Promise<MonsterLookup[]> {
+async function weaknessBeasts(identifier: Number): Promise<MonsterLookup[]> {
   if (typeof identifier !== "number") {
     throw new Error("identifier must be a number!");
   }
@@ -150,7 +150,7 @@ export async function weaknessBeasts(identifier: Number): Promise<MonsterLookup[
  * @returns Monsters with a combat level between the two given levels.
  * @see https://runescape.wiki/w/RuneScape_Bestiary#levelGroup
  */
-export async function levelGroup(identifierLow: Number, identifierHigh: Number): Promise<MonsterLookup[]> {
+async function levelGroup(identifierLow: Number, identifierHigh: Number): Promise<MonsterLookup[]> {
   if (!(identifierLow instanceof Number)) {
     throw new Error("identifierLow must be a number!");
   }
@@ -162,3 +162,12 @@ export async function levelGroup(identifierLow: Number, identifierHigh: Number):
   const data = await _get(`${BASE_URL}/levelGroup.json?identifier=${identifierLow}-${identifierHigh}`);
   return data as MonsterLookup[];
 }
+
+/** API functions. */
+export const api = {
+  beastData, beastSearch, beastiaryNames, 
+  areaNames, areaBeasts,
+  slayerCatNames, slayerBeasts,
+  weaknessNames, weaknessBeasts,
+  levelGroup
+};
